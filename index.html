@@ -28,23 +28,85 @@ class: center, middle, inverse
 
 # Agenda
 
-1.  
+1. Motivation
+2. Design
+3. Implementation
+4. Results
 
 ---
 
-# Demo
-
-<button type="button"> Testing HTML</button>
++ audio feature extraction running in the browser
+  + cross-platform (+ mobile)
+  + no need to install libraries
++ fully on client side
+  + low-latency
+  + broadband speed-independent
+  + easy to use for Web developers
 
 ---
 
-# Summary
++ real-time analysis
++ a selection of useful temporal, spectral and perceptual features
++ instantaneous and synchronized output
++ output multiple features simultaneously
++ easy integration with Web Audio
++ maximum cross-browser compatibility
 
-1.
+---
+
+# Integration
+
++ Simple instantiation
+
+<code>
+  // get context
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  var context = new AudioContext();
+
+  // create source node (this could be any kind of Web Audio Buffer source or a Media Element/Media Stream source)
+  // in Safari, use a buffer source instead
+  var tune = new Audio('audio/guitar.mp3');
+  window.source = context.createMediaElementSource();
+
+  // instantiate new meyda with buffer size of 512 (default is 256)
+  var meyda = new Meyda(context,source,512);
+</code>
+
++ Extraction
+
+---
+
+# Extraction methods
+
++ Instantaneous
+
++ Synchronized
+
+---
+
+# FFT
+
++ AnalyserNode
+
++ *jsfft* library by Nick Jones
+
+---
+
+# Testing
+
+---
+
+# Benchmarking
 
 ---
 
 # Thanks!
+
+###[hughrawlinson.github.io/meyda](hughrawlinson.github.io/meyda "gh pages")
+###@hughrawlinson
+###@nevosegal
+###@j4kubfiala
+
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
