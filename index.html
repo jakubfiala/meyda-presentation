@@ -3,6 +3,7 @@
   <head>
     <title>Meyda: WAC '15</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
     <style type="text/css">
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
@@ -29,28 +30,48 @@ class: center, middle, inverse
 # Agenda
 
 1. Motivation
+
 2. Design
+
 3. Implementation
+
 4. Results
 
----
-
-+ audio feature extraction running in the browser
-  + cross-platform (+ mobile)
-  + no need to install libraries
-+ fully on client side
-  + low-latency
-  + broadband speed-independent
-  + easy to use for Web developers
+5. Future development
 
 ---
 
-+ real-time analysis
-+ a selection of useful temporal, spectral and perceptual features
-+ instantaneous and synchronized output
-+ output multiple features simultaneously
-+ easy integration with Web Audio
-+ maximum cross-browser compatibility
+# The vision
+
++ Audio feature extraction running in the browser
+
+  + Cross-platform (+ mobile)
+
+  + No need to install libraries
+
++ Fully on client side
+
+  + Low-latency
+
+  + Broadband speed-independent
+
+  + Easy to use for Web developers
+
+---
+
+# The design
+
++ Real-time analysis
+
++ A selection of useful temporal, spectral and perceptual features
+
++ Instantaneous and synchronized output
+
++ Output multiple features simultaneously
+
++ Easy integration with Web Audio
+
++ Maximum cross-browser compatibility
 
 ---
 
@@ -58,21 +79,23 @@ class: center, middle, inverse
 
 + Simple instantiation
 
-<code>
-  // get context
+<code class="prettyprint">
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var context = new AudioContext();
 
-  // create source node (this could be any kind of Web Audio Buffer source or a Media Element/Media Stream source)
-  // in Safari, use a buffer source instead
-  var tune = new Audio('audio/guitar.mp3');
+  var tune = new Audio('audio/guitar.mp3');<br>
   window.source = context.createMediaElementSource();
 
-  // instantiate new meyda with buffer size of 512 (default is 256)
   var meyda = new Meyda(context,source,512);
 </code>
 
-+ Extraction
+<br>
+<br>
++ Simple extraction
+
+<code class="prettyprint">
+  var rootMeanSquare = meyda.get("rms");
+</code>
 
 ---
 
@@ -80,7 +103,26 @@ class: center, middle, inverse
 
 + Instantaneous
 
+<code class="prettyprint">
+  var myFeatures = meyda.get(["rms", "loudness", "spectralCentroid"]);
+</code>
+
+<br>
+<br>
+
 + Synchronized
+
+<code class="prettyprint">
+  var meyda = new Meyda(context, source, 512, function(output){<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;myFeatures = output;<br>
+  });
+
+  meyda.start(["zcr", "spectralSlope"]);
+
+  setTimeout(function() {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;meyda.stop();<br>
+  }, 3000);
+</code>
 
 ---
 
@@ -97,6 +139,26 @@ class: center, middle, inverse
 ---
 
 # Benchmarking
+
+---
+
+# Future Development
+
++ Adding more low-level features
+
+  + *chroma, autocorrelation, octave-band analysis, constant-q, spectral flux*
+
++ Adding more windowing functions
+
+  + *blackman, gaussian*
+
++ High-level features
+
+  + *pitch detection/analysis, tempo analysis, onset detection, etc.*
+
++ Expand documentation
+
++ App-level features, e.g. a build system
 
 ---
 
