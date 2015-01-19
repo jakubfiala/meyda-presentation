@@ -83,23 +83,23 @@ class: center, middle, inverse
 
 + Simple instantiation
 
-<code class="prettyprint">
+```
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var context = new AudioContext();
 
-  var tune = new Audio('audio/guitar.mp3');<br>
+  var tune = new Audio('audio/guitar.mp3');
   window.source = context.createMediaElementSource();
 
   var meyda = new Meyda(context,source,512);
-</code>
+```
 
 <br>
 <br>
 + Simple extraction
 
-<code class="prettyprint">
+```
   var rootMeanSquare = meyda.get("rms");
-</code>
+```
 
 ---
 
@@ -107,26 +107,26 @@ class: center, middle, inverse
 
 + Instantaneous
 
-<code class="prettyprint">
+```
   var myFeatures = meyda.get(["rms", "loudness", "spectralCentroid"]);
-</code>
+```
 
 <br>
 <br>
 
 + Synchronized
 
-<code class="prettyprint" style="">
-  var meyda = new Meyda(context, source, 512, function(output){<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;myFeatures = output;<br>
+```
+  var meyda = new Meyda(context, source, 512, function(output){
+      &nbsp;&nbsp;&nbsp;&nbsp;myFeatures = output;
   });
 
   meyda.start(["zcr", "spectralSlope"]);
 
-  setTimeout(function() {<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;meyda.stop();<br>
+  setTimeout(function() {
+      &nbsp;&nbsp;&nbsp;&nbsp;meyda.stop();
   }, 3000);
-</code>
+```
 
 ---
 
@@ -195,7 +195,16 @@ class: center, middle, inverse
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
-      var slideshow = remark.create();
+      var slideshow = remark.create({
+        ratio: '16:9',
+        highlightLanguage: 'javascript',
+        highlightStyle: 'monokai',
+        navigation: {
+          scroll: false,
+          touch: true,
+          click: false
+        }
+      });
     </script>
   </body>
 </html>
