@@ -118,13 +118,13 @@ class: center, middle, inverse
 
 ```
   var meyda = new Meyda(context, source, 512, function(output){
-      &nbsp;&nbsp;&nbsp;&nbsp;myFeatures = output;
+    myFeatures = output;
   });
 
   meyda.start(["zcr", "spectralSlope"]);
 
   setTimeout(function() {
-      &nbsp;&nbsp;&nbsp;&nbsp;meyda.stop();
+    meyda.stop();
   }, 3000);
 ```
 
