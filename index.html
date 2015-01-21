@@ -4,6 +4,7 @@
     <title>Meyda: WAC '15</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript" src="lib/meyda.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
     <style type="text/css">
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
@@ -18,6 +19,25 @@
 
       li {
         margin: 40px 0px 40px 0px;
+      }
+
+      ol {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .remark-slide-content {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+      }
+
+      .wholeSlideCanvas {
+        position: fixed;
+        display: inline-block;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
       }
     </style>
   </head>
@@ -44,6 +64,7 @@ class: center, middle, inverse
 5. Future development
 
 ---
+
 
 # The vision
 
@@ -206,5 +227,21 @@ class: center, middle, inverse
         }
       });
     </script>
+
+    <script type="text/javascript">
+    //initialize user media input
+
+    </script>
+
+    <script type="text/javascript">
+    //jakubs stuff
+
+    var agendaContainer = $("#agenda").parent().parent();
+    agendaContainer.append('<canvas id="loudnessCanvas" class="wholeSlideCanvas">');
+
+
+
+    </script>
+
   </body>
 </html>
