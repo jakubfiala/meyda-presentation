@@ -221,6 +221,8 @@ class: center, middle, inverse
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
+
+      //setup remark.js
       var slideshow = remark.create({
         ratio: '16:9',
         highlightLanguage: 'javascript',
@@ -231,10 +233,8 @@ class: center, middle, inverse
           click: false
         }
       });
-    </script>
 
-
-    <script type="text/javascript">
+      //do some scaling to fit in the canvases
       var scaler = $(".remark-slide-scaler");
       $(".remark-slide-content").css({ width: scaler.width()-160, height: scaler.height()-40 });
 
@@ -272,7 +272,7 @@ class: center, middle, inverse
           });
 
           //start meyda with our features
-          meyda.start(["loudness"]);
+          meyda.start(["loudness", "buffer"]);
 
         },
         //error
@@ -299,47 +299,9 @@ class: center, middle, inverse
     </script>
 
 
-    <script type="text/javascript">
-      //jakubs stuff
-
-      var agendaContainer = $("#agenda").parent().parent();
-      agendaContainer.append('<canvas id="loudnessCanvas" class="wholeSlideCanvas">');
-      var loudnessCanvas = $("#loudnessCanvas")[0];
-      loudnessCanvas.width = scaler.width();
-      loudnessCanvas.height = scaler.height();
-      var loudnessCtx = loudnessCanvas.getContext('2d');
-
-
-      var displayLoudness = function(f) {
-        if (agendaContainer.parent().parent().hasClass("remark-visible")) {
-
-          loudnessCtx.clear();
-
-          var maxValue = 0;
-          var maxIndex = 0;
-
-          loudnessCtx.fillStyle = "#000";
-
-          for (var i = 0; i < f.loudness.specific.length; i++) {
-            if (f.loudness.specific[i] > maxValue) {
-              maxValue = f.loudness.specific[i];
-              maxIndex = i;
-            }
-            loudnessCtx.fillRect(i*loudnessCanvas.width/24+2,loudnessCanvas.height-f.loudness.specific[i]*100,loudnessCanvas.width/24-2,loudnessCanvas.height);
-          }
-
-          loudnessCtx.fillStyle = "#f00";
-
-          loudnessCtx.fillRect(maxIndex*loudnessCanvas.width/24+2,loudnessCanvas.height-f.loudness.specific[maxIndex]*100,loudnessCanvas.width/24-2,loudnessCanvas.height);
-
-        }
-      }
-
-      callbacks.push(displayLoudness);
-
-
-    </script>
+    <script type="text/javascript" src="src/jakubs_stuff.js"></script>
 
 
   </body>
 </html>
+
