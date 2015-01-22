@@ -168,7 +168,7 @@ class: center, middle, inverse
   var context = new AudioContext();
 
   var tune = new Audio('audio/guitar.mp3');
-  window.source = context.createMediaElementSource();
+  window.source = context.createMediaElementSource(tune);
 
   var meyda = new Meyda(context,source,512);
 ```
