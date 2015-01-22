@@ -3,6 +3,8 @@
   <head>
     <title>Meyda: WAC '15</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="lib/meyda.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
     <style type="text/css">
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
@@ -14,6 +16,34 @@
         font-weight: normal;
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+      li {
+        margin: 35px 0px 35px 0px;
+      }
+
+      .remark-slide {
+        background-color: white;
+      }
+
+      .remark-slide-content {
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+      }
+
+      .remark-slide-content.center.middle.inverse h1 {
+        vertical-align: middle;
+      }
+
+      .wholeSlideCanvas {
+        position: fixed;
+        display: inline-block;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+      }
     </style>
   </head>
   <body>
@@ -28,28 +58,250 @@ class: center, middle, inverse
 
 # Agenda
 
-1.  
+1. Motivation
+
+2. Design
+
+3. Implementation
+
+4. Results
+
+5. Future development
 
 ---
 
-# Demo
 
-<button type="button"> Testing HTML</button>
+# The vision
+
++ Audio feature extraction running in the browser
+
+  + Cross-platform (+ mobile)
+
+  + No need to install libraries
+
++ Fully on client side
+
+  + Low-latency
+
+  + Broadband speed-independent
+
+  + Easy to use for Web developers
+
+---
+
+# The design
+
++ Real-time analysis
+
++ A selection of useful temporal, spectral and perceptual features
+
++ Instantaneous and synchronized output
+
++ Output multiple features simultaneously
+
++ Easy integration with Web Audio
+
++ Maximum cross-browser compatibility
+
+---
+
+# Integration
+
++ Simple instantiation
+
+```
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  var context = new AudioContext();
+
+  var tune = new Audio('audio/guitar.mp3');
+  window.source = context.createMediaElementSource();
+
+  var meyda = new Meyda(context,source,512);
+```
+
+<br>
+<br>
++ Simple extraction
+
+```
+  var rootMeanSquare = meyda.get("rms");
+```
+
+---
+
+# Extraction methods
+
++ Instantaneous
+
+```
+  var myFeatures = meyda.get(["rms", "loudness", "spectralCentroid"]);
+```
+
+<br>
+<br>
+
++ Synchronized
+
+```
+  var meyda = new Meyda(context, source, 512, function(output){
+    myFeatures = output;
+  });
+
+  meyda.start(["zcr", "spectralSlope"]);
+
+  setTimeout(function() {
+    meyda.stop();
+  }, 3000);
+```
+
+---
+
+# FFT
+
++ AnalyserNode
+
++ *jsfft* library by Nick Jones
+
+---
+
+# Testing
+
+<div style="width:100%; text-align:center;"><img src="img/testing.png"></div>
+
+---
+
+# Benchmarking
+
+<div style="width:100%; text-align:center;"><img src="img/benchmarking.png" style="position:relative; top:-30px;"></div>
+
+---
+
+# Future Development
+
++ Adding more low-level features
+
+  + *chroma, autocorrelation, octave-band analysis, constant-q, spectral flux*
+
++ Adding more windowing functions
+
+  + *blackman, gaussian*
+
++ High-level features
+
+  + *pitch detection/analysis, tempo analysis, onset detection, etc.*
+
++ Expand documentation
+
++ App-level features, e.g. a build system
 
 ---
 
 # Summary
 
-1.
++ Efficient audio feature extraction in the browser
+
++ Easily integrated, cross-platorm, robust &amp; powerful
+
++ Good accuracy in comparison with native libraries
+
++ Performs well on desktop &amp; mobile
+
++ Please contribute!
 
 ---
 
 # Thanks!
+
+###[hughrawlinson.github.io/meyda](hughrawlinson.github.io/meyda "gh pages")
+###@hughrawlinson
+###@nevosegal
+###@j4kubfiala
+
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
-      var slideshow = remark.create();
+
+      //setup remark.js
+      var slideshow = remark.create({
+        ratio: '16:9',
+        highlightLanguage: 'javascript',
+        highlightStyle: 'monokai',
+        navigation: {
+          scroll: false,
+          touch: true,
+          click: false
+        }
+      });
+
+      //do some scaling to fit in the canvases
+      var scaler = $(".remark-slide-scaler");
+      $(".remark-slide-content").css({ width: scaler.width()-160, height: scaler.height()-40 });
+
+
+      //initialize user media input
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      navigator.getUserMedia = ( navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia ||
+                         navigator.msGetUserMedia);
+
+
+      var audioContext = new AudioContext();
+      var meyda;
+      var callbacks = [];
+
+      //get the input
+      navigator.getUserMedia(
+        //constraints
+        {
+          video: false, audio: true
+        },
+        //success
+        function(mediaStream) {
+          window.source = audioContext.createMediaStreamSource(mediaStream);
+
+          //instantiate new meyda
+          meyda = new Meyda(audioContext,source,2048, function(output){
+            //execute callbacks
+            var features = output;
+            callbacks.forEach(function(element, index, array){
+              element(output);
+            });
+
+          });
+
+          //start meyda with our features
+          meyda.start(["loudness", "buffer"]);
+
+        },
+        //error
+        function(err) {
+          alert("There has been an error accessing the microphone.");
+        }
+      )
+
+      //a little utility for all ye little kids
+      CanvasRenderingContext2D.prototype.clear =
+        CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+          if (preserveTransform) {
+            this.save();
+            this.setTransform(1, 0, 0, 1, 0, 0);
+          }
+
+          this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+          if (preserveTransform) {
+            this.restore();
+          }
+      };
+
     </script>
+
+
+    <script type="text/javascript" src="src/jakubs_stuff.js"></script>
+
+
   </body>
 </html>
+
