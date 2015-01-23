@@ -17,7 +17,7 @@ var displayLoudness = function(f) {
     var maxValue = 0;
     var maxIndex = 0;
 
-    loudnessCtx.fillStyle = "#000";
+    loudnessCtx.fillStyle = "#ddd";
 
     for (var i = 0; i < f.loudness.specific.length; i++) {
       if (f.loudness.specific[i] > maxValue) {
@@ -49,7 +49,7 @@ var displayBuffer = function(f) {
   if (thanksContainer.parent().parent().hasClass("remark-visible")) {
     bufferCtx.clear();
 
-    bufferCtx.fillStyle = "#000";
+    bufferCtx.fillStyle = "#ddd";
 
     f.buffer = meyda.windowing(f.buffer, "hamming");
 
