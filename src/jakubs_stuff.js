@@ -27,6 +27,9 @@ var displayLoudness = function(f) {
       loudnessCtx.fillRect(i*loudnessCanvas.width/24+2,loudnessCanvas.height-f.loudness.specific[i]*100,loudnessCanvas.width/24-2,loudnessCanvas.height);
     }
 
+    loudnessCtx.font = "14px Courier New";
+    loudnessCtx.fillText("BARK BAND LOUDNESS // Loudest band number: " + maxIndex, loudnessCanvas.width-400, loudnessCanvas.height-100);
+
     loudnessCtx.fillStyle = "#f00";
 
     loudnessCtx.fillRect(maxIndex*loudnessCanvas.width/24+2,loudnessCanvas.height-f.loudness.specific[maxIndex]*100,loudnessCanvas.width/24-2,loudnessCanvas.height);
@@ -57,7 +60,10 @@ var displayBuffer = function(f) {
       var ysize = (v) * (600) / ( 2.0);
       var xsize = i * 500 / f.buffer.length;
       bufferCtx.fillRect(xsize + 500, 400/2-ysize+200,4,ysize);
-    })
+    });
+
+    bufferCtx.font = "14px Courier New";
+    bufferCtx.fillText("BUFFER // hamming window", loudnessCanvas.width-400, loudnessCanvas.height-100);
 
   }
 }
