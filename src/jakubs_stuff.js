@@ -28,7 +28,7 @@ var displayLoudness = function(f) {
     }
 
     loudnessCtx.font = "14px Courier New";
-    loudnessCtx.fillText("BARK BAND LOUDNESS // Loudest band number: " + maxIndex, loudnessCanvas.width-400, loudnessCanvas.height-100);
+    loudnessCtx.fillText("BARK BAND LOUDNESS // Loudest band number: " + maxIndex, loudnessCanvas.width-400, loudnessCanvas.height-150);
 
     loudnessCtx.fillStyle = "#f00";
 

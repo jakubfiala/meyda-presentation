@@ -27,9 +27,13 @@ var displayRMS = function(f) {
     rmsCtx.lineWidth = 10;
     rmsCtx.beginPath();
     rmsCtx.strokeStyle = "#ddd";
-    rmsCtx.arc(rmsCanvas.width-(radius+distance),rmsCanvas.height-(radius+distance), radius ,1.5*Math.PI , 1.5*Math.PI + 3*f.rms*Math.PI);
+    rmsCtx.arc(rmsCanvas.width-(radius+distance),rmsCanvas.height-(radius+distance), radius ,1.5*Math.PI , 1.5*Math.PI + 2*f.rms*Math.PI);
     rmsCtx.stroke();
     rmsCtx.closePath();
+
+    rmsCtx.fillStyle = "#ddd";
+    rmsCtx.font = "18px Courier New";
+    rmsCtx.fillText("RMS: " + Math.round(f.rms*10000)/10000, rmsCanvas.width-(radius+distance)-60, rmsCanvas.height-(radius+distance)+8);
 
   }
 }
@@ -50,21 +54,19 @@ var fftCtx = fftCanvas.getContext('2d');
 
 var displayLoudness = function(f) {
   if (fftContainer.parent().parent().hasClass("remark-visible")) {
-    var width = fftCanvas.width/f.amplitudeSpectrum.length;
+
+    var sizeOfDisplayedFFT = 2*f.amplitudeSpectrum.length/3;
+    var width = fftCanvas.width/sizeOfDisplayedFFT;
     fftCtx.clear();
-
-    var maxValue = 0;
-    var maxIndex = 0;
-
 
     fftCtx.fillStyle = "#ddd";
     fftCtx.fillRect(0, fftCanvas.height-50, fftCanvas.width, 1);
-    for (var i = 0; i < f.amplitudeSpectrum.length-1; i++) {
-      fftCtx.fillRect(i*width,fftCanvas.height-f.amplitudeSpectrum[i]*75-50,width,(f.amplitudeSpectrum[i]*75));
+    for (var i = 0; i < sizeOfDisplayedFFT; i++) {
+      fftCtx.fillRect(i*width,fftCanvas.height-f.amplitudeSpectrum[i]*100-50,width,(f.amplitudeSpectrum[i]*100));
     }
 
     fftCtx.fillStyle = "#f33";
-    fftCtx.fillRect(width*f.spectralCentroid, fftCanvas.height - 50, 2,50);
+    fftCtx.fillRect(width*f.spectralCentroid, fftCanvas.height-50, 3, 50);
   }
 }
 
