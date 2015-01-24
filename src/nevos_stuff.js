@@ -1,4 +1,6 @@
 //nevos stuff
+
+//RMS
 var visionContainer = $("#the-vision-continuation").parent().parent();
 visionContainer.append('<canvas id="rmsCanvas" class="wholeSlideCanvas">');
 var rmsCanvas = $("#rmsCanvas")[0];
@@ -13,17 +15,16 @@ var displayRMS = function(f) {
 
     rmsCtx.clear();
 
-    rmsCtx.lineWidth = 16;
-
     //darker circle
+    rmsCtx.lineWidth = 16;
     rmsCtx.beginPath();
     rmsCtx.strokeStyle = "#555";
     rmsCtx.arc(rmsCanvas.width-(radius+distance), rmsCanvas.height-(radius+distance), radius, 0, 2*Math.PI)
     rmsCtx.stroke();
     rmsCtx.closePath();
 
-    rmsCtx.lineWidth = 10;
     //brighter circle
+    rmsCtx.lineWidth = 10;
     rmsCtx.beginPath();
     rmsCtx.strokeStyle = "#ddd";
     rmsCtx.arc(rmsCanvas.width-(radius+distance),rmsCanvas.height-(radius+distance), radius ,1.5*Math.PI , 1.5*Math.PI + 3*f.rms*Math.PI);
