@@ -1,7 +1,7 @@
 //nevos stuff
 
 //RMS
-var visionContainer = $("#the-vision-continuation").parent().parent();
+var visionContainer = $("#the-vision-continued").parent().parent();
 visionContainer.append('<canvas id="rmsCanvas" class="wholeSlideCanvas">');
 var rmsCanvas = $("#rmsCanvas")[0];
 rmsCanvas.width = scaler.width();
