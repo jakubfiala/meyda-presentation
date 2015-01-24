@@ -66,7 +66,11 @@ var displayLoudness = function(f) {
     }
 
     fftCtx.fillStyle = "#f33";
-    fftCtx.fillRect(width*f.spectralCentroid, fftCanvas.height-50, 3, 50);
+    fftCtx.fillRect(fftCanvas.width/f.amplitudeSpectrum.length*f.spectralCentroid, fftCanvas.height-50, 3, 50);
+
+
+    fftCtx.font = "16px Courier New";
+    fftCtx.fillText("Spectral Centroid // Bin Number: " + Math.round(f.spectralCentroid), rmsCanvas.width-370, rmsCanvas.height-20);
   }
 }
 
