@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('#features').parent().append('<canvas id="specvis" style="z-index:-1" class="wholeSlideCanvas" ></canvas>');
+  $('#features').parent().append('<canvas id="specvis" style="z-index:-1;" class="wholeSlideCanvas" ></canvas>');
   var canvas = document.getElementById('specvis');
   canvas.width = scaler.width();
   canvas.height = scaler.height();
@@ -7,9 +7,7 @@ $(document).ready(function(){
   var displayMagnitude = 100;
   var historyLength = 100;
   ctx.font = "14px Courier New";
-  ctx.lineWidth = 3;
-  var xoffset = 500;
-  var yBottomOffset = 200;
+  ctx.lineWidth = 2;
   var data = {
     sharpness:{
       max:0,
@@ -23,6 +21,12 @@ $(document).ready(function(){
       max:0,
       previous:[]
     },
+    borders:{
+      x1:500,
+      x2:50,
+      y1:200,
+      y2:50
+    }
   }
   for(var i = 0; i < historyLength; i++){
     data.sharpness.previous[i]=0;
@@ -47,37 +51,53 @@ $(document).ready(function(){
     //spectralFlatness
     ctx.beginPath();
     for(var i = 0; i < historyLength; i++){
-      var x = xoffset+(i*(canvas.width-xoffset)/historyLength);
-      var y = (canvas.height-yBottomOffset)-(canvas.height-yBottomOffset)*(data.flatness.previous[i]/data.flatness.max);
+      var x = data.borders.x1+(i*(canvas.width-data.borders.x1-data.borders.x2)/historyLength);
+      var val = data.flatness.previous[i]/data.flatness.max;
+      val = val<1?val>0?val:0:1;
+      var y = (canvas.height-data.borders.y1)-(canvas.height-data.borders.y1-data.borders.y2)*(val);
       i==0?ctx.moveTo(x, y):ctx.lineTo(x,y);
     }
     ctx.strokeStyle = "#FFF";
     ctx.fillStyle = "#FFF";
     ctx.stroke();
-    ctx.fillText("Flatness // " + f.spectralFlatness, canvas.width-400, canvas.height-80);
+    ctx.fillText("Flatness // " + Math.round(f.spectralFlatness*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-20));
 
     //Perceptual Sharpness
     ctx.beginPath();
     for(var i = 0; i < historyLength; i++){
-      var x = xoffset+(i*(canvas.width-xoffset)/historyLength);
-      var y = (canvas.height-yBottomOffset)-(canvas.height-yBottomOffset)*(data.sharpness.previous[i]/data.sharpness.max);
+      var x = data.borders.x1+(i*(canvas.width-data.borders.x1-data.borders.x2)/historyLength);
+      var val = data.sharpness.previous[i]/data.sharpness.max;
+      val = val<1?val>0?val:0:1;
+      var y = (canvas.height-data.borders.y1)-(canvas.height-data.borders.y1-data.borders.y2)*(val);
       i==0?ctx.moveTo(x, y):ctx.lineTo(x,y);
     }
     ctx.strokeStyle = "#F00";
     ctx.fillStyle = "#F00";
     ctx.stroke();
-    ctx.fillText("Sharpness // " + f.perceptualSharpness, canvas.width-400, canvas.height-60);
+    ctx.fillText("Sharpness // " + Math.round(f.perceptualSharpness*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-40));
 
     //Spectral Rolloff
     ctx.beginPath();
     for(var i = 0; i < historyLength; i++){
-      var x = xoffset+(i*(canvas.width-xoffset)/historyLength);
-      var y = (canvas.height-yBottomOffset)-(canvas.height-yBottomOffset)*(data.rolloff.previous[i]/data.rolloff.max);
+      var x = data.borders.x1+(i*(canvas.width-data.borders.x1-data.borders.x2)/historyLength);
+      var val = data.rolloff.previous[i]/data.rolloff.max;
+      val = val<1?val>0?val:0:1;
+      var y = (canvas.height-data.borders.y1)-(canvas.height-data.borders.y1-data.borders.y2)*(val);
       i==0?ctx.moveTo(x, y):ctx.lineTo(x,y);
     }
     ctx.strokeStyle = "#0CF";
     ctx.fillStyle = "#0CF";
     ctx.stroke();
-    ctx.fillText("Rolloff // " + f.spectralRolloff, canvas.width-400, canvas.height-40);
+    ctx.fillText("Rolloff // " + Math.round(f.spectralRolloff*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-60));
+
+    //Borders
+    ctx.strokeStyle = "#CCC";
+    ctx.beginPath()
+    ctx.moveTo(data.borders.x1,data.borders.y2);
+    ctx.lineTo(data.borders.x1,canvas.height-data.borders.y1);
+    ctx.lineTo(canvas.width-data.borders.x2,canvas.height-data.borders.y1);
+    ctx.lineTo(canvas.width-data.borders.x2,data.borders.y2);
+    ctx.lineTo(data.borders.x1,data.borders.y2);
+    ctx.stroke();
   });
 });
