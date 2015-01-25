@@ -1,5 +1,6 @@
 $(document).ready(function(){
   $('#features').parent().append('<canvas id="specvis" style="z-index:-1;" class="wholeSlideCanvas" ></canvas>');
+  $('#features').parent().parent().append('<div style="position: absolute;height:306px;width:460px;top:75px;left:675px;z-index:2;background: -moz-linear-gradient(left,  rgba(51,51,51,0) 0%, rgba(51,51,51,1) 100%); /* FF3.6+ */background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(51,51,51,0)), color-stop(100%,rgba(51,51,51,1))); /* Chrome,Safari4+ */background: -webkit-linear-gradient(left,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%); /* Chrome10+,Safari5.1+ */background: -o-linear-gradient(left,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%); /* Opera 11.10+ */background: -ms-linear-gradient(left,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%); /* IE10+ */background: linear-gradient(to right,  rgba(51,51,51,0) 0%,rgba(51,51,51,1) 100%); /* W3C */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#00000000", endColorstr="#a6000000",GradientType=1 ); /* IE6-9 */"></div>');
   var canvas = document.getElementById('specvis');
   canvas.width = scaler.width();
   canvas.height = scaler.height();
@@ -22,8 +23,8 @@ $(document).ready(function(){
       previous:[]
     },
     borders:{
-      x1:500,
-      x2:250,
+      x1:675,
+      x2:75,
       y1:300,
       y2:75
     }
@@ -99,5 +100,8 @@ $(document).ready(function(){
     ctx.lineTo(canvas.width-data.borders.x2,data.borders.y2);
     ctx.lineTo(data.borders.x1,data.borders.y2);
     ctx.stroke();
+
+    console.log(canvas.width-data.borders.x2-data.borders.x1);
+    console.log(canvas.height-data.borders.y2-data.borders.y1);
   });
 });
