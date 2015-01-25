@@ -23,8 +23,8 @@ $(document).ready(function(){
     },
     borders:{
       x1:500,
-      x2:350,
-      y1:400,
+      x2:250,
+      y1:300,
       y2:75
     }
   }
