@@ -114,7 +114,7 @@ class: center, middle, inverse
   var context = new AudioContext();
 
   var tune = new Audio('audio/guitar.mp3');
-  window.source = context.createMediaElementSource();
+  window.source = context.createMediaElementSource(tune);
 
   var meyda = new Meyda(context,source,512);
 ```
@@ -272,7 +272,7 @@ class: center, middle, inverse
           });
 
           //start meyda with our features
-          meyda.start(["loudness", "buffer"]);
+          meyda.start(["loudness", "buffer", "spectralCentroid", "spectralRolloff", "rms"]);
 
         },
         //error
@@ -300,8 +300,7 @@ class: center, middle, inverse
 
 
     <script type="text/javascript" src="src/jakubs_stuff.js"></script>
-
-
+    <!-- <script type="text/javascript" src="src/hughs_stuff.js"></script> -->
   </body>
 </html>
 
