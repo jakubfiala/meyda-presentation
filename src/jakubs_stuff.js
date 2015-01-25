@@ -17,7 +17,7 @@ var displayLoudness = function(f) {
     var maxValue = 0;
     var maxIndex = 0;
 
-    loudnessCtx.fillStyle = "#000";
+    loudnessCtx.fillStyle = "#ddd";
 
     for (var i = 0; i < f.loudness.specific.length; i++) {
       if (f.loudness.specific[i] > maxValue) {
@@ -26,6 +26,9 @@ var displayLoudness = function(f) {
       }
       loudnessCtx.fillRect(i*loudnessCanvas.width/24+2,loudnessCanvas.height-f.loudness.specific[i]*100,loudnessCanvas.width/24-2,loudnessCanvas.height);
     }
+
+    loudnessCtx.font = "14px Courier New";
+    loudnessCtx.fillText("BARK BAND LOUDNESS // Loudest band number: " + maxIndex, loudnessCanvas.width-400, loudnessCanvas.height-150);
 
     loudnessCtx.fillStyle = "#f00";
 
@@ -49,7 +52,7 @@ var displayBuffer = function(f) {
   if (thanksContainer.parent().parent().hasClass("remark-visible")) {
     bufferCtx.clear();
 
-    bufferCtx.fillStyle = "#000";
+    bufferCtx.fillStyle = "#ddd";
 
     f.buffer = meyda.windowing(f.buffer, "hamming");
 
@@ -57,7 +60,10 @@ var displayBuffer = function(f) {
       var ysize = (v) * (600) / ( 2.0);
       var xsize = i * 500 / f.buffer.length;
       bufferCtx.fillRect(xsize + 500, 400/2-ysize+200,4,ysize);
-    })
+    });
+
+    bufferCtx.font = "14px Courier New";
+    bufferCtx.fillText("BUFFER // hamming window", loudnessCanvas.width-400, loudnessCanvas.height-100);
 
   }
 }
