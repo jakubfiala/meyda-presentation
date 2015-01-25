@@ -23,9 +23,9 @@ $(document).ready(function(){
     },
     borders:{
       x1:500,
-      x2:50,
-      y1:200,
-      y2:50
+      x2:350,
+      y1:400,
+      y2:75
     }
   }
   for(var i = 0; i < historyLength; i++){
