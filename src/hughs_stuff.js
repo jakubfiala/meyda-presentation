@@ -89,7 +89,7 @@ $(document).ready(function(){
     ctx.strokeStyle = "#FFF";
     ctx.fillStyle = "#FFF";
     ctx.stroke();
-    ctx.fillText("Flatness // " + Math.round(f.spectralFlatness*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-20));
+    ctx.fillText("Spectral Flatness // " + Math.round(f.spectralFlatness*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-20));
 
     //Perceptual Sharpness
     ctx.beginPath();
@@ -104,7 +104,7 @@ $(document).ready(function(){
     ctx.strokeStyle = "#F00";
     ctx.fillStyle = "#F00";
     ctx.stroke();
-    ctx.fillText("Sharpness // " + Math.round(f.perceptualSharpness*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-40));
+    ctx.fillText("Perceptual Sharpness // " + Math.round(f.perceptualSharpness*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-40));
 
     //Spectral Rolloff
     ctx.beginPath();
@@ -118,7 +118,7 @@ $(document).ready(function(){
     ctx.strokeStyle = "#0CF";
     ctx.fillStyle = "#0CF";
     ctx.stroke();
-    ctx.fillText("Rolloff // " + Math.round(f.spectralRolloff*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-60));
+    ctx.fillText("Spectral Rolloff // " + Math.round(f.spectralRolloff*10000)/10000, data.borders.x1, canvas.height-(data.borders.y1-60));
 
     //ZCR
 
